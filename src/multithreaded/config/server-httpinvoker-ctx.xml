@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!--  publish dengan protokol HttpInvoker  -->
+    <bean id="runningNumberServiceHttpInvoker"
+    class="org.springframework.remoting.httpinvoker.SimpleHttpInvokerServiceExporter">
+	    <property name="service" ref="runningNumberGeneratorService"/>
+	    <property name="serviceInterface" value="multithreaded.service.RunningNumberGeneratorService"/>
+	</bean>
+
+    <!-- launch dengan JDK Http Server -->
+    <bean class="org.springframework.remoting.support.SimpleHttpServerFactoryBean">
+    	<property name="contexts">
+    		<map>
+    			<entry key="/RunningNumberGeneratorService"
+                value-ref="runningNumberServiceHttpInvoker"/>
+    		</map>
+    	</property>
+    </bean>
+
+</beans>
